@@ -1,32 +1,11 @@
 #pragma once
+#include "ComponentPool.h"
 #include <string>
 #include <map>
 #include <vector>
 #include<iostream>
 #include <utility>
 
-
-
-class BaseComponentPool{};
-
-template <typename T>
-class ComponentPool : public BaseComponentPool
-{
-public:
-	void AddComponent(unsigned int entityID)
-	{
-		T comp;
-		Components.insert(std::make_pair(entityID, comp));
-	}
-
-	T* GetComponent(unsigned int entityID)
-	{
-		return &Components.at(entityID);
-	}
-
-private:
-	std::map<unsigned int, T> Components;
-};
 
 //------------------------------------------
 // Holds a list of componet pools
@@ -36,45 +15,72 @@ class ComponentManager
 public:
 	
 	template<typename T>
-	void init()
-	{
-		BaseComponentPool* temp;
-		temp = new ComponentPool<T>();
-		PoolMap.insert(std::map<size_t, BaseComponentPool*>::value_type(typeid(T).hash_code(), temp));
-	}
-	//
+	void init();
+
 	//Adds a componet to its corrisponding pool. 
 	//Component must be derrived from BaseComponent
-	//
 	template<typename T>
-	void AddComponent(unsigned int entity)
-	{
-		//if the component pool does not exitst, add a new one.
-		auto iterator = PoolMap.find(typeid(T).hash_code());
-		if (iterator == PoolMap.end())
-		{
-			BaseComponentPool* temp = new ComponentPool<T>();
-			PoolMap.insert(std::map<size_t, BaseComponentPool*>::value_type(typeid(T).hash_code(), temp));
-		}
-
-		//Add componet to the correct pool
-		BaseComponentPool* temp = PoolMap.at(typeid(T).hash_code());
-		ComponentPool<T>* pool = static_cast<ComponentPool<T>*>(temp);
-		pool->AddComponent(entity);
-
-	}
+	void AddComponent(unsigned int entity);
 
 	template<typename T>
-	T* GetComponent(unsigned int entity)
-	{
-		BaseComponentPool* temp = PoolMap.at(typeid(T).hash_code());
-		ComponentPool<T>* pool = static_cast<ComponentPool<T>*>(temp);
-		return pool->GetComponent(entity);
-	}
+	T* GetComponent(unsigned int entity);
+
+	template<typename... Components>
+	bool HasComponents(unsigned int entity);
+
 
 private:
 	std::map<size_t, BaseComponentPool*> PoolMap;
 };
+
+//---------------------------------------------------
+//				IMPLEMENTATION
+//---------------------------------------------------
+
+template<typename T>
+void ComponentManager::Init()
+{
+	BaseComponentPool* temp;
+	temp = new ComponentPool<T>();
+	PoolMap.insert(std::map<size_t, BaseComponentPool*>::value_type(typeid(T).hash_code(), temp));
+}
+
+
+template<typename T>
+void ComponentManager::AddComponent(unsigned int entity)
+{
+	//if the component pool does not exitst, add a new one.
+	auto iterator = PoolMap.find(typeid(T).hash_code());
+	if (iterator == PoolMap.end())
+	{
+		BaseComponentPool* temp = new ComponentPool<T>();
+		PoolMap.insert(std::map<size_t, BaseComponentPool*>::value_type(typeid(T).hash_code(), temp));
+	}
+
+	//Add componet to the correct pool
+	BaseComponentPool* temp = PoolMap.at(typeid(T).hash_code());
+	ComponentPool<T>* pool = static_cast<ComponentPool<T>*>(temp);
+	pool->AddComponent(entity);
+}
+
+
+template<typename T>
+T* ComponentManager::GetComponent(unsigned int entity)
+{
+	BaseComponentPool* temp = PoolMap.at(typeid(T).hash_code());
+	ComponentPool<T>* pool = static_cast<ComponentPool<T>*>(temp);
+	return pool->GetComponent(entity);
+}
+
+
+template<typename... Components>
+bool ComponentManager::HasComponents(unsigned int entity)
+{
+	BaseComponentPool* temp = PoolMap.at(typeid(Components...).hash_code());
+	if (temp->HasComponent(entity) && HasComponent(Components...))
+		return true;
+}
+
 
 
 //--------------------------------------
@@ -108,3 +114,5 @@ private:
 //	static map_type* map;
 //	
 //};
+
+

@@ -1,24 +1,12 @@
 #pragma once
+
 #include "ComponentManager.h"
-
-
-class BaseSystem 
-{
-public:
-	virtual void Initalize() {};
-	virtual void Update(unsigned int entity, ComponentManager* cManager) = 0;
-	virtual void UnInitalize() {};
-
-private:
-
-};
-
-
+#include "BaseSystem.h"
 
 class SystemManager
 {
 public:
-	SystemManager(ComponentManager* cManager);
+	SystemManager(ComponentManager* cManager): m_ComponentManager(cManager) {}
 
 	template<typename T>
 	void AddSystem()
@@ -27,9 +15,26 @@ public:
 		SystemList.push_back(new T);
 	}
 
-	void UpdateSystem(double deltaTime, unsigned int entity);
+	//-------------------------------
+	// Loop through each system and update its corrisponding entities.
+	//We need to figure out how to efficiently register systems with componets
+	//------------------------------
+	void UpdateSystems(double deltaTime, unsigned int entity)
+	{
+		for (int i = 0; i < SystemList.size(); ++i)
+		{
+			SystemList[i]->PreUpdate();
 
+			for (int x = 0; x < 1; ++x)
+			{
+				SystemList[i]->Update(0);
+			}
+
+			SystemList[i]->PostUpdate();
+		}
+	}
+	
 private:
 	ComponentManager* m_ComponentManager;
-	std::vector<BaseSystem*> SystemList;
+	std::vector<BaseSystem<>*> SystemList;
 };
