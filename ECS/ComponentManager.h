@@ -25,9 +25,14 @@ public:
 	template<typename T>
 	T* GetComponent(unsigned int entity);
 
-	template<typename... Components>
+	//--------------
+	template<typename First>
 	bool HasComponents(unsigned int entity);
 
+
+	template<typename First, typename Second, typename... Components>
+	bool HasComponents(unsigned int entity);
+	//--------------
 
 private:
 	std::map<size_t, BaseComponentPool*> PoolMap;
@@ -73,12 +78,28 @@ T* ComponentManager::GetComponent(unsigned int entity)
 }
 
 
-template<typename... Components>
+//----------------------------------------------------------
+// NOTE TO FUTURE ME: Trying to access a component pool that does not exist is going to throw an excepton you dolt!
+//---------------------------------------------------------
+template<typename First>
 bool ComponentManager::HasComponents(unsigned int entity)
 {
-	BaseComponentPool* temp = PoolMap.at(typeid(Components...).hash_code());
-	if (temp->HasComponent(entity) && HasComponent(Components...))
+	BaseComponentPool* temp = PoolMap.at(typeid(First).hash_code());
+	if (temp->HasComponent(entity))
 		return true;
+	else
+		return false;
+}
+
+
+template<typename First, typename Second, typename... Components>
+bool ComponentManager::HasComponents(unsigned int entity)
+{
+	BaseComponentPool* temp = PoolMap.at(typeid(First).hash_code());
+	if (temp->HasComponent(entity) && HasComponents<Second, Components...>(entity))
+		return true;
+	else 
+		return false;
 }
 
 

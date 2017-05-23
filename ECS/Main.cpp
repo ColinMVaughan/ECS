@@ -5,7 +5,7 @@
 int main()
 {
 	ComponentManager CManager;
-	CManager.AddComponent<int>(0);
+	//CManager.AddComponent<int>(0);
 	CManager.AddComponent<bool>(0);
 
 	CManager.AddComponent<int>(1);
@@ -13,7 +13,9 @@ int main()
 
 	
 	if (CManager.HasComponents<int, bool>(0))
-		std::cout << "YAAY";
+		std::cout << "Has required Component(s)";
+	else
+		std::cout << "Does not have required Component(s)";
 
 
 	return 0;

@@ -11,7 +11,7 @@ public:
 	template<typename T>
 	void AddSystem()
 	{
-		static_assert(std::is_base_of<BaseSystem, T>::value, "");
+		//static_assert(std::is_base_of<BaseSystem, T>::value, "");
 		SystemList.push_back(new T);
 	}
 
@@ -36,5 +36,5 @@ public:
 	
 private:
 	ComponentManager* m_ComponentManager;
-	std::vector<BaseSystem<>*> SystemList;
+	std::vector<BaseSystem*> SystemList;
 };
