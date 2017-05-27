@@ -84,22 +84,28 @@ T* ComponentManager::GetComponent(unsigned int entity)
 template<typename First>
 bool ComponentManager::HasComponents(unsigned int entity)
 {
-	BaseComponentPool* temp = PoolMap.at(typeid(First).hash_code());
-	if (temp->HasComponent(entity))
-		return true;
-	else
-		return false;
+	if(PoolMap.count(typeid(First)) > 0)
+	{
+		BaseComponentPool* temp = PoolMap.at(typeid(First).hash_code());
+		if (temp->HasComponent(entity))
+			return true;
+	}
+
+	return false;
 }
 
 
 template<typename First, typename Second, typename... Components>
 bool ComponentManager::HasComponents(unsigned int entity)
 {
-	BaseComponentPool* temp = PoolMap.at(typeid(First).hash_code());
-	if (temp->HasComponent(entity) && HasComponents<Second, Components...>(entity))
-		return true;
-	else 
-		return false;
+	if(PoolMap.count(typeid(First)) > 0)
+	{
+		BaseComponentPool* temp = PoolMap.at(typeid(First).hash_code());
+		if (temp->HasComponent(entity) && HasComponents<Second, Components...>(entity))
+			return true;
+	}
+
+	return false;
 }
 
 
