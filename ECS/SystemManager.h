@@ -1,5 +1,4 @@
 #pragma once
-
 #include "ComponentManager.h"
 #include "BaseSystem.h"
 
@@ -9,10 +8,15 @@ public:
 	SystemManager(ComponentManager* cManager): m_ComponentManager(cManager) {}
 
 	template<typename T>
-	void AddSystem()
+	T* AddSystem()
 	{
 		//static_assert(std::is_base_of<BaseSystem, T>::value, "");
-		SystemList.push_back(new T);
+		T* returnPtr = new T(m_ComponentManager);
+
+		BaseSystem* tempPtr = returnPtr;
+		SystemList.push_back(tempPtr);
+
+		return returnPtr;
 	}
 
 	//-------------------------------

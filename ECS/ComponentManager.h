@@ -14,8 +14,6 @@ class ComponentManager
 {
 public:
 	
-	template<typename T>
-	void init();
 
 	//Adds a componet to its corrisponding pool. 
 	//Component must be derrived from BaseComponent
@@ -42,13 +40,7 @@ private:
 //				IMPLEMENTATION
 //---------------------------------------------------
 
-template<typename T>
-void ComponentManager::Init()
-{
-	BaseComponentPool* temp;
-	temp = new ComponentPool<T>();
-	PoolMap.insert(std::map<size_t, BaseComponentPool*>::value_type(typeid(T).hash_code(), temp));
-}
+
 
 
 template<typename T>
@@ -84,7 +76,7 @@ T* ComponentManager::GetComponent(unsigned int entity)
 template<typename First>
 bool ComponentManager::HasComponents(unsigned int entity)
 {
-	if(PoolMap.count(typeid(First)) > 0)
+	if(PoolMap.count(typeid(First).hash_code()) > 0)
 	{
 		BaseComponentPool* temp = PoolMap.at(typeid(First).hash_code());
 		if (temp->HasComponent(entity))
@@ -98,7 +90,7 @@ bool ComponentManager::HasComponents(unsigned int entity)
 template<typename First, typename Second, typename... Components>
 bool ComponentManager::HasComponents(unsigned int entity)
 {
-	if(PoolMap.count(typeid(First)) > 0)
+	if(PoolMap.count(typeid(First).hash_code()) > 0)
 	{
 		BaseComponentPool* temp = PoolMap.at(typeid(First).hash_code());
 		if (temp->HasComponent(entity) && HasComponents<Second, Components...>(entity))

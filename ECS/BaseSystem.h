@@ -26,15 +26,20 @@ public:
 	virtual void UnInitalize() {};
 
 	// returns true if the entity is registered with all the required components.
-	virtual bool HasComponents(unsigned int entity);
+	virtual bool HasComponents(unsigned int entity)
+	{
+		std::cout << "\nThis function (BaseSystem::HasComponent) should never be called.";
+		return false;
+	}
 };
 
 
 template<typename C, typename... RequiredComponents>
-class System
+class System : public BaseSystem
 {
 public:
 
+	System(ComponentManager* a_cmanager): m_CManager(a_cmanager){}
 	virtual void Initalize() {};
 
 	// PreUpdate:  runs one once per frame
@@ -54,7 +59,6 @@ public:
 	}
 
 
-private:
 	ComponentManager* m_CManager;
 };
 
