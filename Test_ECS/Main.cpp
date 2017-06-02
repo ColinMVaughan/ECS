@@ -1,5 +1,6 @@
 #include <gtest\gtest.h>
-#include "Tests.h"
+#include "ComponentManagerTest.h"
+#include "SystemManagerTest.h"
 
 int main(int argc, char** argv)
 {
