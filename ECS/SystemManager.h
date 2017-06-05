@@ -1,4 +1,16 @@
-#pragma once
+#ifndef SYSTEM_MANAGER_H
+#define SYSTEM_MANAGER_H
+
+//--------------------------------------------------------------
+//					Colin Vaughan 
+//					June 5th, 2017
+//
+// The System Manager is used to Contain and update any added Systems.
+// Every cycle, each system is looped through and their update nethod called,
+// while passing only entities that have the required components.
+//--------------------------------------------------------------
+
+
 #include "ComponentManager.h"
 #include "BaseSystem.h"
 
@@ -42,3 +54,5 @@ private:
 	ComponentManager* m_ComponentManager;
 	std::vector<BaseSystem*> SystemList;
 };
+
+#endif

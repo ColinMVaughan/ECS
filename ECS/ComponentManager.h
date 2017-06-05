@@ -1,9 +1,9 @@
-#pragma once
+#ifndef COMPONENT_MANAGER_H
+#define COMPONENT_MANAGER_H
+
 #include "ComponentPool.h"
-#include <string>
 #include <map>
 #include <vector>
-#include<iostream>
 #include <utility>
 
 
@@ -135,3 +135,4 @@ bool ComponentManager::HasComponents(unsigned int entity)
 //};
 
 
+#endif
