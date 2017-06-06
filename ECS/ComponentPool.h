@@ -1,7 +1,6 @@
 #ifndef COMPONENT_POOL_H
 #define COMPONENT_POOL_H
 
-#pragma once
 #include <map>
 
 class BaseComponentPool

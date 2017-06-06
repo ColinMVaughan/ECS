@@ -3,7 +3,7 @@
 
 //Colin Vaughan		June 5th, 2017
 #include "ComponentManager.h"
-
+#include <iostream>
 //-----------------------------------------
 //				BASE SYSTEM
 // Derrive your system from this class to be able to submit it to the system manager.
@@ -88,4 +88,5 @@ class ExampleDerrivedSystem : public System<int, bool>
 		return;
 	}
 };
+
 #endif

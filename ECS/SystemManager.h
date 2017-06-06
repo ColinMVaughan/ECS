@@ -40,10 +40,13 @@ public:
 		for (int i = 0; i < SystemList.size(); ++i)
 		{
 			SystemList[i]->PreUpdate();
+			
 
-			for (int x = 0; x < 1; ++x)
+
+			for (unsigned int x = 0; x < 1; ++x)
 			{
-				SystemList[i]->Update(0);
+				if(SystemList[i]->HasComponents(i))
+					SystemList[i]->Update(i);
 			}
 
 			SystemList[i]->PostUpdate();
@@ -51,6 +54,8 @@ public:
 	}
 	
 private:
+
+
 	ComponentManager* m_ComponentManager;
 	std::vector<BaseSystem*> SystemList;
 };
