@@ -1,4 +1,6 @@
-#pragma once
+#ifndef COMPONENT_POOL_H
+#define COMPONENT_POOL_H
+
 #include <map>
 
 class BaseComponentPool
@@ -44,3 +46,5 @@ inline bool ComponentPool<T>::HasComponent(unsigned int entity)
 {
 	return (Components.find(entity) != Components.end()) ? true : false;
 }
+
+#endif

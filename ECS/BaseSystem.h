@@ -1,9 +1,9 @@
-#pragma once
-#include<memory>
+#ifndef BASE_SYSTEM_H
+#define BASE_SYSTEM_H
+
+//Colin Vaughan		June 5th, 2017
 #include "ComponentManager.h"
-
-
-
+#include <iostream>
 //-----------------------------------------
 //				BASE SYSTEM
 // Derrive your system from this class to be able to submit it to the system manager.
@@ -34,6 +34,15 @@ public:
 };
 
 
+//---------------------------------------------------------------------
+//					SYSTEM
+//
+// This is the class that you should derrive your custom system from.
+//
+// When derriving from this class, include the required components 
+// as system's template arguments. This ensures that only entities with
+// all required componets are updated within the system.
+//----------------------------------------------------------------------
 template<typename C, typename... RequiredComponents>
 class System : public BaseSystem
 {
@@ -52,7 +61,8 @@ public:
 
 	virtual void UnInitalize() {};
 
-	// returns true if the entity is registered with all the required components.
+	// Returns true if the entity is registered with all the required components.
+	// Marked final to prevent definition by derrived classes.
 	virtual bool HasComponents(unsigned int entity) final
 	{
 		return m_CManager->HasComponents<C, RequiredComponents...>(entity);
@@ -62,6 +72,15 @@ public:
 	ComponentManager* m_CManager;
 };
 
+
+
+//------------------------------------------------------
+//					EXAMPLEDERRIVEDSYSTEM
+//
+// This is an example of a basic custom system.
+// Notice that the Update function must be included, and the tamplate arguments
+// represent the requred components.
+//-----------------------------------------------------
 class ExampleDerrivedSystem : public System<int, bool>
 {
 	void Update(unsigned int entity) override
@@ -69,3 +88,5 @@ class ExampleDerrivedSystem : public System<int, bool>
 		return;
 	}
 };
+
+#endif
