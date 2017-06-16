@@ -15,19 +15,34 @@ template <typename T>
 class ComponentPool : public BaseComponentPool
 {
 public:
+	ComponentPool();
+	~ComponentPool();
 	void AddComponent(unsigned int entityID);
 	T* GetComponent(unsigned int entityID);
 	bool HasComponent(unsigned int entity) override;
 
 private:
+
 	std::map<unsigned int, T> Components;
+	T* m_Pool;
 };
-
-
 
 //-----------------------------------------------------------------
 //						IMPLEMENTATION
 //-----------------------------------------------------------------
+
+template <typename T>
+ComponentPool<T>::ComponentPool()
+{
+	m_Pool = new T[10];
+}
+
+template <typename T>
+ComponentPool<T>::~ComponentPool()
+{
+	delete m_Pool;
+}
+
 template<typename T>
 inline void ComponentPool<T>::AddComponent(unsigned int entityID)
 {

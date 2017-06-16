@@ -26,5 +26,8 @@
     <ClInclude Include="SystemManagerTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ECSTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

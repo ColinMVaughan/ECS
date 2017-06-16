@@ -120,6 +120,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ComponentManagerTest.h" />
+    <ClInclude Include="ECSTest.h" />
     <ClInclude Include="SystemManagerTest.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -1,4 +1,7 @@
-#pragma once
+#ifndef SYS_MANAGER_TEST_H
+#define SYS_MANAGER_TEST_H
+
+
 #include <gtest/gtest.h>
 #include "SystemManager.h"
 class TestSystem : public System<bool, int>
@@ -52,3 +55,5 @@ TEST(SystemManagerTest, UpdatesCorrectEntities)
 
 	EXPECT_TRUE(false);
 }
+
+#endif
