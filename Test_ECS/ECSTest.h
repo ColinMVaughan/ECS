@@ -4,6 +4,7 @@
 #include <gtest/gtest.h>
 #include "ECS.h"
 
+
 TEST(ECSTest, CreateEntity)
 {
 	std::shared_ptr<ComponentManager> CompMgr = std::make_shared<ComponentManager>();
@@ -16,8 +17,14 @@ TEST(ECSTest, CreateEntity)
 	EXPECT_TRUE(entity2.GetID() != 0);
 }
 
+//
 TEST(EcsTest, DestroyEntity)
 {
+	std::shared_ptr<ComponentManager> CompMgr = std::make_shared<ComponentManager>();
+	std::shared_ptr<SystemManager> SysMgr = std::make_shared<SystemManager>(CompMgr.get());
+
+	ECS Master(SysMgr, CompMgr);
+
 	ECS Master;
 	Entity entity1 = Master.CreateEntity();
 	Entity entity2 = Master.CreateEntity();
@@ -26,14 +33,10 @@ TEST(EcsTest, DestroyEntity)
 	Master.AddComponent<bool>(entity1);
 
 
-
-
 	Master.DestroyEntity(entity1);
 	
 
 	EXPECT_TRUE(false);
 }
-
-
 
 #endif

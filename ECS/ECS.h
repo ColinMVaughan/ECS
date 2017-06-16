@@ -32,6 +32,8 @@ public:
 	template<typename T> 
 	std::shared_ptr<T> AddSystem();
 
+	template<typename T>
+	std::shared_ptr<T> GetComponent(Entity a_entity);
 
 	void UpdateSystems();
 	
