@@ -1,7 +1,15 @@
-#pragma once
+#ifndef COMPONENT_MANAGER_TEST_H
+#define COMPONENT_MANAGER_TEST_H
+
+
 #include <gtest\gtest.h>
 #include <ComponentManager.h>
 
+
+//-----------------------------------------------
+// Checks if the entity has the required components, returns true if it does.
+// Can take an arbitrary number of template arguments (required components)
+//----------------------------------------------
 TEST(ComponentManagerTest, HasComponent)
 {
 	//----------------------------------------------
@@ -24,6 +32,13 @@ TEST(ComponentManagerTest, HasComponent)
 
 }
 
+
+//---------------------------------------------
+// Tests Adding components to the manager. The manager determines the correct pool to add the component to,
+// and adds it if the pool exists. If not it creates the pool.
+//
+// Returns pointer to created component.
+//--------------------------------------------
 TEST(ComponentManagerTest, AddComponent)
 {
 	{
@@ -46,3 +61,15 @@ TEST(ComponentManagerTest, AddComponent)
 		EXPECT_FALSE(*result);
 	}
 }
+
+TEST(ComponentManagerTest, RemoveComponent)
+{
+	EXPECT_TRUE(false);
+}
+
+TEST(ComponentManagerTest, GetComponent)
+{
+	EXPECT_TRUE(false);
+}
+
+#endif
