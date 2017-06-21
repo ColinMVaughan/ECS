@@ -1,3 +1,10 @@
+//-------------------------------------------------
+//					Colin Vaughan
+// ECS class is used to
+//--------------------------------------------------
+
+
+
 #pragma once
 #include <memory>
 #include "SystemManager.h"
@@ -16,11 +23,9 @@ private:
 
 class ECS
 {
-	typedef std::shared_ptr<SystemManager> SystemManager_ptr;
-	typedef std::shared_ptr<ComponentManager> ComponentManager_ptr;
 
 public:
-	ECS(SystemManager_ptr a_systemMgr, ComponentManager_ptr a_compMgr)
+	ECS(SystemManager* a_systemMgr, ComponentManager* a_compMgr)
 	: m_SystemManager(a_systemMgr) , m_ComponentManager(a_compMgr){}
 
 	Entity CreateEntity();
@@ -38,8 +43,8 @@ public:
 	void UpdateSystems();
 	
 private:
-	SystemManager_ptr   m_SystemManager;
-	ComponentManager_ptr m_ComponentManager;
+	SystemManager*    m_SystemManager;
+	ComponentManager* m_ComponentManager;
 
 	unsigned int EntityCounter;
 };
@@ -54,19 +59,19 @@ inline Entity ECS::CreateEntity()
 	return Entity(EntityCounter);
 }
 
-//Destroys all components associated with the entity and remove it from the list
-inline void ECS::DestroyEntity(Entity a_entity)
-{
-}
-
-template <typename T>
-std::shared_ptr<T> ECS::AddComponent(Entity a_entity)
-{
-	return m_ComponentManager->AddComponent<T>(a_entity.GetID());
-}
-
-template <typename T>
-std::shared_ptr<T> ECS::AddSystem()
-{
-	return m_SystemManager->AddSystem<T>();
-}
+////Destroys all components associated with the entity and remove it from the list
+//inline void ECS::DestroyEntity(Entity a_entity)
+//{
+//}
+//
+//template <typename T>
+//std::shared_ptr<T> ECS::AddComponent(Entity a_entity)
+//{
+//	return 0;
+//}
+//
+//template <typename T>
+//std::shared_ptr<T> ECS::AddSystem()
+//{
+//	return m_SystemManager->AddSystem<T>();
+//}
