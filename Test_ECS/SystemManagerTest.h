@@ -64,7 +64,7 @@ TEST(SystemManagerTest, DoesUpdateSystems)
 	CManager.AddComponent<int>(0);
 
 
-	SysManager.UpdateSystems(0.0, 0);
+	//SysManager.UpdateSystems(0.0, 0);
 
 
 	EXPECT_TRUE(testSys->HasUpdated);
@@ -78,9 +78,9 @@ TEST(SystemManagerTest, UpdatesCorrectEntities)
 
 	SysManager.AddSystem<TestSystem>();
 
-	SysManager.UpdateSystems(0.0, 0);
-	SysManager.UpdateSystems(0.0, 1);
-	SysManager.UpdateSystems(0.0, 2);
+	//SysManager.UpdateSystems(0.0, 0);
+	//SysManager.UpdateSystems(0.0, 1);
+	//SysManager.UpdateSystems(0.0, 2);
 
 
 	CManager.AddComponent<bool>(0);

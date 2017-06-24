@@ -2,6 +2,7 @@
 #include <SystemManager.h>
 #include <ComponentManager.h>
 #include <ECS.h>
+#include <thread>
 
 class Map
 {
@@ -11,6 +12,12 @@ public:
 
 class DrawMapSystem : public System<Map>
 {
+public:
+	DrawMapSystem(ComponentManager* a_Cmanager) : System(a_Cmanager)
+	{
+		
+	}
+
 	virtual void Update(unsigned int entity)
 	{
 		Map* map = m_CManager->GetComponent<Map>(entity);
@@ -24,6 +31,7 @@ class DrawMapSystem : public System<Map>
 				std::cout << map->data[y][x];
 			}
 		}
+		std::this_thread::sleep_for(std::chrono::milliseconds(50));
 	}
 };
 
@@ -32,20 +40,29 @@ class Demo
 {
 
 public:
+
+	Demo() : m_Map(0), m_Player(0)
+	{
+		
+	}
 	void Initalize()
 	{
 		//Initalize ECS Managers
-		m_CompMan = new ComponentManager;
-		m_SysMan  = new SystemManager(m_CompMan);
-		m_ECS     = new ECS(m_SysMan, m_CompMan);
+		ComponentManager* m_CompMan = new ComponentManager;
+		SystemManager*    m_SysMan  = new SystemManager(m_CompMan);
+		m_ECS                       = new ECS(m_SysMan, m_CompMan);
+
+
+		//Create Entities
+		m_Map = m_ECS->CreateEntity();
 
 		//Add Systems
-		m_SysMan->AddSystem<DrawMapSystem>();
+		m_ECS->AddSystem<DrawMapSystem>();
 
 
 		//Add Components for Map
 		m_ECS->AddComponent<Map>(m_Map);
-		Map* map = m_CompMan->GetComponent<Map>(0);
+		Map* map = m_ECS->GetComponent<Map>(m_Map);
 		for(int y = 0; y< 10; y++)
 		{
 			for (int x = 0; x< 10; x++)
@@ -63,12 +80,14 @@ public:
 			m_ECS->UpdateSystems();
 		}
 	}
-	void Unload();
+
+	void Unload()
+	{
+		
+	}
 
 private:
-	ECS*			  m_ECS;
-	SystemManager*	  m_SysMan;
-	ComponentManager* m_CompMan;
+	ECS*   m_ECS;
 
 	Entity m_Map;
 	Entity m_Player;
