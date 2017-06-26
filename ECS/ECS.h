@@ -1,3 +1,10 @@
+//-------------------------------------------------
+//					Colin Vaughan
+// ECS class is used to
+//--------------------------------------------------
+
+
+
 #pragma once
 #include <memory>
 #include "SystemManager.h"
@@ -16,57 +23,82 @@ private:
 
 class ECS
 {
-	typedef std::shared_ptr<SystemManager> SystemManager_ptr;
-	typedef std::shared_ptr<ComponentManager> ComponentManager_ptr;
 
 public:
-	ECS(SystemManager_ptr a_systemMgr, ComponentManager_ptr a_compMgr)
+	ECS(SystemManager* a_systemMgr, ComponentManager* a_compMgr)
 	: m_SystemManager(a_systemMgr) , m_ComponentManager(a_compMgr){}
 
 	Entity CreateEntity();
 	void DestroyEntity(Entity a_entity);
 
 	template<typename T>
-	std::shared_ptr<T> AddComponent(Entity a_entity);
+	void AddComponent(Entity a_entity);
 
 	template<typename T> 
-	std::shared_ptr<T> AddSystem();
+	void AddSystem();
 
 	template<typename T>
-	std::shared_ptr<T> GetComponent(Entity a_entity);
+	T* GetComponent(Entity a_entity);
 
 	void UpdateSystems();
 	
 private:
-	SystemManager_ptr   m_SystemManager;
-	ComponentManager_ptr m_ComponentManager;
+	SystemManager*    m_SystemManager;
+	ComponentManager* m_ComponentManager;
 
 	unsigned int EntityCounter;
+	std::vector<unsigned int> m_EntityList;
 };
+
+
 
 
 //					IMPLEMENTATION
 //------------------------------------------------------------------------------
+template <typename T>
+void ECS::AddComponent(Entity a_entity)
+{
+	m_ComponentManager->AddComponent<T>(a_entity.GetID());
+}
+
+template <typename T>
+void ECS::AddSystem()
+{
+	m_SystemManager->AddSystem<T>();
+}
+
+template <typename T>
+T* ECS::GetComponent(Entity a_entity)
+{
+	return m_ComponentManager->GetComponent<T>(a_entity.GetID());
+}
+
 
 inline Entity ECS::CreateEntity()
 {
 	EntityCounter++;
+	m_EntityList.push_back(EntityCounter);
 	return Entity(EntityCounter);
 }
 
-//Destroys all components associated with the entity and remove it from the list
-inline void ECS::DestroyEntity(Entity a_entity)
+inline void ECS::UpdateSystems()
 {
+	m_SystemManager->UpdateSystems(0.0, m_EntityList.data(), m_EntityList.size());
 }
 
-template <typename T>
-std::shared_ptr<T> ECS::AddComponent(Entity a_entity)
-{
-	return m_ComponentManager->AddComponent<T>(a_entity.GetID());
-}
-
-template <typename T>
-std::shared_ptr<T> ECS::AddSystem()
-{
-	return m_SystemManager->AddSystem<T>();
-}
+////Destroys all components associated with the entity and remove it from the list
+//inline void ECS::DestroyEntity(Entity a_entity)
+//{
+//}
+//
+//template <typename T>
+//std::shared_ptr<T> ECS::AddComponent(Entity a_entity)
+//{
+//	return 0;
+//}
+//
+//template <typename T>
+//std::shared_ptr<T> ECS::AddSystem()
+//{
+//	return m_SystemManager->AddSystem<T>();
+//}
