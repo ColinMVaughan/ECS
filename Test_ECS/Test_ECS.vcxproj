@@ -120,6 +120,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ComponentManagerTest.h" />
+    <ClInclude Include="Demo.h" />
     <ClInclude Include="ECSTest.h" />
     <ClInclude Include="SystemManagerTest.h" />
   </ItemGroup>

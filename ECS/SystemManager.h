@@ -35,18 +35,16 @@ public:
 	// Loop through each system and update its corrisponding entities.
 	//We need to figure out how to efficiently register systems with componets
 	//------------------------------
-	void UpdateSystems(double deltaTime, unsigned int entity)
+	void UpdateSystems(double deltaTime, unsigned int entityList[], size_t entityCount)
 	{
 		for (int i = 0; i < SystemList.size(); ++i)
 		{
 			SystemList[i]->PreUpdate();
-			
 
-
-			for (unsigned int x = 0; x < 1; ++x)
+			for (unsigned int count = 0; count < entityCount; ++count)
 			{
-				if(SystemList[i]->HasComponents(i))
-					SystemList[i]->Update(i);
+				if(SystemList[i]->HasComponents(entityList[count]))
+					SystemList[i]->Update(entityList[count]);
 			}
 
 			SystemList[i]->PostUpdate();
