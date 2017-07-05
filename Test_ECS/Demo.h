@@ -10,6 +10,8 @@ public:
 	char data[10][10];
 };
 
+
+
 class DrawMapSystem : public System<Map>
 {
 public:
@@ -20,6 +22,7 @@ public:
 
 	virtual void Update(unsigned int entity)
 	{
+
 		Map* map = m_CManager->GetComponent<Map>(entity);
 
 		system("cls");
@@ -34,6 +37,7 @@ public:
 		std::this_thread::sleep_for(std::chrono::milliseconds(50));
 	}
 };
+
 
 
 class Demo

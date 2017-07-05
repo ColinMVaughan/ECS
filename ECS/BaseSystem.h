@@ -61,6 +61,9 @@ public:
 
 	virtual void UnInitalize() {};
 
+	virtual void KeyDownCallback();
+	virtual void KeyUpCallback();
+
 	// Returns true if the entity is registered with all the required components.
 	// Marked final to prevent definition by derrived classes.
 	virtual bool HasComponents(unsigned int entity) final
