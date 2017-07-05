@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.0)
+Project(ECS)
+
+target_include_directories(ECS PUBLIC "./Include")
+file(GLOB SOURCES "Src/*.cpp")
+
+add_library(ECS STATIC ${SOURCES})
